@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Exercise Checking Report.txt = Exercise Checking Report.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B18_Ex02_1", "..\..\..\..\Documents\GitHub\B18-Ex02-Chen-308334309-Snir-203698808\B18_Ex02_1\B18_Ex02_1.csproj", "{5C16BC0E-0814-492F-881D-C8CBB4BE2DA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B18_Ex02_1", "B18_Ex02_1\B18_Ex02_1.csproj", "{5C16BC0E-0814-492F-881D-C8CBB4BE2DA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

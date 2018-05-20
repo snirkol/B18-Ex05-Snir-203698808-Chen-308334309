@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(827, 755);
             this.Name = "DamkaForm";
             this.Text = "Damka";
+            this.Load += new System.EventHandler(this.DamkaForm_Load);
             this.ResumeLayout(false);
 
         }

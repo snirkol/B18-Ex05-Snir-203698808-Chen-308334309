@@ -12,6 +12,7 @@ namespace B18_Ex05_1
 {
     public partial class GameSettingsForm : Form
     {
+        public int sizeOfBoard { get; set; }
         public GameSettingsForm()
         {
             InitializeComponent();
@@ -25,6 +26,24 @@ namespace B18_Ex05_1
         {
             TextBoxPlayer2.Enabled = CheckBoxPlayer2.Checked;
             TextBoxPlayer2.Text = "";
+        }
+
+        private void buttonDone_Click(object sender, EventArgs e)
+        {
+            if(radioButton6X6.Checked)
+            {
+                sizeOfBoard = 6;
+            }
+            else if(radioButton8X8.Checked)
+            {
+                sizeOfBoard = 8;
+            }
+            else
+            {
+                sizeOfBoard = 10;
+            }
+
+            this.Close();
         }
     }
 }

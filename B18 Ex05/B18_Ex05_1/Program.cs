@@ -16,8 +16,10 @@ namespace B18_Ex05_1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new GameSettingsForm());
-            Application.Run(new DamkaForm());
+            GameSettingsForm gameSettingsForm = new GameSettingsForm();
+            Application.Run(gameSettingsForm);
+            int sizeOfBoard = gameSettingsForm.sizeOfBoard;
+            Application.Run(new DamkaForm(sizeOfBoard));
         }
     }
 }

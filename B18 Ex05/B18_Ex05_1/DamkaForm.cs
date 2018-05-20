@@ -13,26 +13,29 @@ namespace B18_Ex05_1
     public partial class DamkaForm : Form
     {
         Panel[,] m_ChessBoardPanels;
+        int m_SizeOfBoard;
 
-        public DamkaForm()
+        public DamkaForm(int i_SizeOfBoard)
         {
             InitializeComponent();
+            m_SizeOfBoard = i_SizeOfBoard;
         }
 
         private void DamkaForm_Load(object sender, EventArgs e)
         {
             const int tileSize = 40;
-            const int gridSize = 12;
             var clr1 = Color.DarkGray;
             var clr2 = Color.White;
 
+            this.ClientSize = new System.Drawing.Size(40*m_SizeOfBoard, 40*m_SizeOfBoard);
+
             // initialize the "chess board"
-            m_ChessBoardPanels = new Panel[gridSize, gridSize];
+            m_ChessBoardPanels = new Panel[m_SizeOfBoard, m_SizeOfBoard];
 
             // double for loop to handle all rows and columns
-            for (var n = 0; n < gridSize; n++)
+            for (var n = 0; n < m_SizeOfBoard; n++)
             {
-                for (var m = 0; m < gridSize; m++)
+                for (var m = 0; m < m_SizeOfBoard; m++)
                 {
                     // create new Panel control which will be one 
                     // chess board tile

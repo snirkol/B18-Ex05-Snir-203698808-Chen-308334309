@@ -23,11 +23,11 @@ namespace B18_Ex05_1
 
         private void DamkaForm_Load(object sender, EventArgs e)
         {
-            const int tileSize = 40;
+            const int k_TileSize = 40;
             var color1 = Color.DarkGray;
             var color2 = Color.White;
 
-            this.ClientSize = new System.Drawing.Size(40 * m_SizeOfBoard + 24, 40 * m_SizeOfBoard + 52);
+            this.ClientSize = new System.Drawing.Size(k_TileSize * m_SizeOfBoard + 24, k_TileSize * m_SizeOfBoard + 52);
 
             Label nameOfPlayerOne = new Label();
             Controls.Add(nameOfPlayerOne);
@@ -41,8 +41,8 @@ namespace B18_Ex05_1
                 {
                     var newPanel = new Panel
                     {
-                        Size = new Size(tileSize, tileSize),
-                        Location = new Point(tileSize * n + 12, tileSize * m + 40)
+                        Size = new Size(k_TileSize, k_TileSize),
+                        Location = new Point(k_TileSize * n + 12, k_TileSize * m + 40)
                     };
 
                     Controls.Add(newPanel);

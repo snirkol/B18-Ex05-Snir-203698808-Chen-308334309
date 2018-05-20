@@ -13,6 +13,7 @@ namespace B18_Ex05_1
     public partial class GameSettingsForm : Form
     {
         public int sizeOfBoard { get; set; }
+        public string nameOfPlayerOne { get; set; }
         public GameSettingsForm()
         {
             InitializeComponent();
@@ -42,6 +43,8 @@ namespace B18_Ex05_1
             {
                 sizeOfBoard = 10;
             }
+
+            nameOfPlayerOne = textBoxPlayer1.Text; 
 
             this.Close();
         }

@@ -12,7 +12,7 @@ namespace B18_Ex05_1
 {
     public partial class DamkaForm : Form
     {
-        Panel[,] m_ChessBoardPanels;
+        Panel[,] m_DamkaBoardPanels;
         int m_SizeOfBoard;
 
         public DamkaForm(int i_SizeOfBoard)
@@ -24,38 +24,54 @@ namespace B18_Ex05_1
         private void DamkaForm_Load(object sender, EventArgs e)
         {
             const int tileSize = 40;
-            var clr1 = Color.DarkGray;
-            var clr2 = Color.White;
+            var color1 = Color.DarkGray;
+            var color2 = Color.White;
 
-            this.ClientSize = new System.Drawing.Size(40*m_SizeOfBoard, 40*m_SizeOfBoard);
+            this.ClientSize = new System.Drawing.Size(40 * m_SizeOfBoard + 24, 40 * m_SizeOfBoard + 52);
 
-            // initialize the "chess board"
-            m_ChessBoardPanels = new Panel[m_SizeOfBoard, m_SizeOfBoard];
+            Label nameOfPlayerOne = new Label();
+            Controls.Add(nameOfPlayerOne);
 
-            // double for loop to handle all rows and columns
+
+            m_DamkaBoardPanels = new Panel[m_SizeOfBoard, m_SizeOfBoard];
+
             for (var n = 0; n < m_SizeOfBoard; n++)
             {
                 for (var m = 0; m < m_SizeOfBoard; m++)
                 {
-                    // create new Panel control which will be one 
-                    // chess board tile
                     var newPanel = new Panel
                     {
                         Size = new Size(tileSize, tileSize),
-                        Location = new Point(tileSize * n, tileSize * m)
+                        Location = new Point(tileSize * n + 12, tileSize * m + 40)
                     };
 
-                    // add to Form's Controls so that they show up
                     Controls.Add(newPanel);
 
-                    // add to our 2d array of panels for future use
-                    m_ChessBoardPanels[n, m] = newPanel;
+                    m_DamkaBoardPanels[n, m] = newPanel;
 
-                    // color the backgrounds
                     if (n % 2 == 0)
-                        newPanel.BackColor = m % 2 != 0 ? clr1 : clr2;
+                    {
+                        if (m % 2 != 0)
+                        {
+                            newPanel.BackColor = color1;
+                        }
+                        else
+                        {
+                            newPanel.BackColor = color2;
+                        }
+                    }
+                                                
                     else
-                        newPanel.BackColor = m % 2 != 0 ? clr2 : clr1;
+                    {
+                        if (m % 2 != 0)
+                        {
+                            newPanel.BackColor = color2;
+                        }
+                        else
+                        {
+                            newPanel.BackColor = color1;
+                        }
+                    }
                 }
             }
         }

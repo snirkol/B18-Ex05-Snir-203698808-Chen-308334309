@@ -1,6 +1,6 @@
 ﻿namespace B18_Ex05_1
 {
-    partial class Form1
+    partial class GameSettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -79,7 +79,7 @@
             this.radioButtonGroupBox.Controls.Add(this.radioButton1);
             this.radioButtonGroupBox.Controls.Add(this.radioButton3);
             this.radioButtonGroupBox.Controls.Add(this.radioButton2);
-            this.radioButtonGroupBox.Location = new System.Drawing.Point(28, 49);
+            this.radioButtonGroupBox.Location = new System.Drawing.Point(28, 30);
             this.radioButtonGroupBox.Name = "radioButtonGroupBox";
             this.radioButtonGroupBox.Size = new System.Drawing.Size(705, 101);
             this.radioButtonGroupBox.TabIndex = 4;
@@ -108,7 +108,7 @@
             // 
             this.textBoxPlayer1.Location = new System.Drawing.Point(249, 236);
             this.textBoxPlayer1.Name = "textBoxPlayer1";
-            this.textBoxPlayer1.Size = new System.Drawing.Size(180, 38);
+            this.textBoxPlayer1.Size = new System.Drawing.Size(215, 38);
             this.textBoxPlayer1.TabIndex = 7;
             // 
             // CheckBoxPlayer2
@@ -116,9 +116,9 @@
             this.CheckBoxPlayer2.AutoSize = true;
             this.CheckBoxPlayer2.Location = new System.Drawing.Point(55, 298);
             this.CheckBoxPlayer2.Name = "CheckBoxPlayer2";
-            this.CheckBoxPlayer2.Size = new System.Drawing.Size(165, 36);
+            this.CheckBoxPlayer2.Size = new System.Drawing.Size(156, 36);
             this.CheckBoxPlayer2.TabIndex = 8;
-            this.CheckBoxPlayer2.Text = "PLyer 2: ";
+            this.CheckBoxPlayer2.Text = "Plyer 2: ";
             this.CheckBoxPlayer2.UseVisualStyleBackColor = true;
             this.CheckBoxPlayer2.CheckedChanged += new System.EventHandler(this.CheckBoxPlayer2_CheckedChanged);
             // 
@@ -127,8 +127,9 @@
             this.TextBoxPlayer2.Enabled = false;
             this.TextBoxPlayer2.Location = new System.Drawing.Point(249, 298);
             this.TextBoxPlayer2.Name = "TextBoxPlayer2";
-            this.TextBoxPlayer2.Size = new System.Drawing.Size(180, 38);
+            this.TextBoxPlayer2.Size = new System.Drawing.Size(215, 38);
             this.TextBoxPlayer2.TabIndex = 9;
+            this.TextBoxPlayer2.Text = "[Computer]";
             // 
             // button1
             // 
@@ -139,7 +140,7 @@
             this.button1.Text = "Done";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // GameSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -151,7 +152,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelPlayr1);
             this.Controls.Add(this.radioButtonGroupBox);
-            this.Name = "Form1";
+            this.Name = "GameSettingsForm";
             this.Text = "Game Settings";
             this.radioButtonGroupBox.ResumeLayout(false);
             this.radioButtonGroupBox.PerformLayout();

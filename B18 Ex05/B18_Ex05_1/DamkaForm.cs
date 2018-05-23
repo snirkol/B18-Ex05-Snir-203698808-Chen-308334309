@@ -13,7 +13,7 @@ namespace B18_Ex05_1
 {
     public partial class DamkaForm : Form
     {
-        Panel[,] m_DamkaBoardPanels;
+        Button[,] m_DamkaBoardButtons;
         int m_SizeOfBoard;
         const int k_TileSize = 40;
         const int k_Spaces = 12;
@@ -32,14 +32,12 @@ namespace B18_Ex05_1
             PlayerOneName = i_PlayerOneName;
             PlayerTwoName = i_PlayerTwoName;
             GameManager = new GameManager(PlayerOneName, PlayerTwoName, m_SizeOfBoard);
-            
         }
 
         private void DamkaForm_Load(object sender, EventArgs e)
         {
             CreateBoard();
             CreateTopPanel();
-
         }
 
         private void CreateTopPanel()
@@ -62,38 +60,40 @@ namespace B18_Ex05_1
 
         private void CreateBoard()
         {
-            var color1 = Color.DarkGray;
+            var color1 = Color.Black;
             var color2 = Color.White;
 
             this.ClientSize = new System.Drawing.Size(k_TileSize * m_SizeOfBoard + 2 * k_Spaces,
                 k_TileSize * m_SizeOfBoard + k_TileSize + k_Spaces);
 
 
-            m_DamkaBoardPanels = new Panel[m_SizeOfBoard, m_SizeOfBoard];
+            m_DamkaBoardButtons = new Button[m_SizeOfBoard, m_SizeOfBoard];
 
             for (var n = 0; n < m_SizeOfBoard; n++)
             {
                 for (var m = 0; m < m_SizeOfBoard; m++)
                 {
-                    var cellBoard = new PanelWithPosition(n,m)
+                    ButtonWithPosition cellBoard = new ButtonWithPosition(n,m)
                     {
                         Size = new Size(k_TileSize, k_TileSize),
                         Location = new Point(k_TileSize * n + k_Spaces, k_TileSize * m + k_TileSize)
                     };
-                     cellBoard.Click += OnCellBoardClick;
+
+                    cellBoard.Click += OnCellBoardClick;
                     Controls.Add(cellBoard);
 
-                    m_DamkaBoardPanels[n, m] = cellBoard;
+                    m_DamkaBoardButtons[n, m] = cellBoard;
 
                     if (n % 2 == 0)
                     {
                         if (m % 2 != 0)
                         {
-                            cellBoard.BackColor = color1;
+                            cellBoard.BackColor = color2;
                         }
                         else
                         {
-                            cellBoard.BackColor = color2;
+                            cellBoard.BackColor = color1;
+                            cellBoard.Enabled = false;
                         }
                     }
 
@@ -101,15 +101,19 @@ namespace B18_Ex05_1
                     {
                         if (m % 2 != 0)
                         {
-                            cellBoard.BackColor = color2;
+                            cellBoard.BackColor = color1;
+                            cellBoard.Enabled = false;
                         }
                         else
                         {
-                            cellBoard.BackColor = color1;
+                            cellBoard.BackColor = color2;
                         }
                     }
                 }
             }
+
+            showCeckersInBoard(GameManager.m_Board.GetBoard());
+
         }
 
         private void OnCellBoardClick(object sender, EventArgs e)
@@ -117,19 +121,79 @@ namespace B18_Ex05_1
             //TODO: finish impliment
 
             //current select
-            if(m_currentPos.m_Col== null || m_currentPos.m_Row == null)
+            if(m_currentPos.m_Col == null || m_currentPos.m_Row == null)
             {
-                m_currentPos = new Position(
-                    ((PanelWithPosition)sender).XPosition,
-                    ((PanelWithPosition)sender).YPosition);
+                if(((ButtonWithPosition)sender).Text != "")
+                {
+                    m_currentPos = new Position(
+                        ((ButtonWithPosition)sender).XPosition,
+                        ((ButtonWithPosition)sender).YPosition);
+
+                    ((ButtonWithPosition)sender).BackColor = Color.LightBlue;
+                }
             }
+
             //desired move
             else
             {
                 m_desiredPos = new Position(
-                    ((PanelWithPosition)sender).XPosition,
-                    ((PanelWithPosition)sender).YPosition);
+                    ((ButtonWithPosition)sender).XPosition,
+                    ((ButtonWithPosition)sender).YPosition);
+
+                if((m_currentPos.m_Col == m_desiredPos.m_Col) && 
+                    (m_currentPos.m_Row == m_desiredPos.m_Row))
+                {
+                    // cancle selection
+                    ((ButtonWithPosition)sender).BackColor = Color.White;
+                    m_currentPos.m_Row = null;
+                    m_currentPos.m_Col = null;
+                    m_desiredPos.m_Row = null;
+                    m_desiredPos.m_Col = null;
+                }
             }
+        }
+
+        private void showCeckersInBoard(eCheckerType?[,] i_Board)
+        {
+            for (int i = 0; i< m_SizeOfBoard ; i++)
+            {
+                for( int j=0; j < m_SizeOfBoard; j++)
+                {
+                    m_DamkaBoardButtons[i, j].Text = convertECheckerTypeToString(i_Board[j, i]);
+                }
+            }
+        }
+
+        private string convertECheckerTypeToString(eCheckerType? i_EcheckerType)
+        {
+            string o_result;
+
+            if(i_EcheckerType == null)
+            {
+                o_result = "";
+            }
+
+            else if(i_EcheckerType == eCheckerType.Team1_King)
+            {
+                o_result = "K";
+            }
+
+            else if (i_EcheckerType == eCheckerType.Team1_Man)
+            {
+                o_result = "X";
+            }
+
+            else if( i_EcheckerType == eCheckerType.Team2_King)
+            {
+                o_result = "U";
+            }
+
+            else // i_EcheckerType == eCheckerType.Team2_Man)
+            {
+                o_result = "O";
+            }
+
+            return o_result;
         }
     }
 }

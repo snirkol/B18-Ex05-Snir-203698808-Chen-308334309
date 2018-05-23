@@ -57,7 +57,7 @@
     <Compile Include="GameSettingsForm.Designer.cs">
       <DependentUpon>GameSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PanelWithPosition.cs">
+    <Compile Include="ButtonWithPosition.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />

@@ -75,7 +75,7 @@ namespace B18_Ex05_1
             {
                 for (var m = 0; m < m_SizeOfBoard; m++)
                 {
-                    var cellBoard = new Panel
+                    var cellBoard = new PanelWithPosition(n,m)
                     {
                         Size = new Size(k_TileSize, k_TileSize),
                         Location = new Point(k_TileSize * n + k_Spaces, k_TileSize * m + k_TileSize)
@@ -114,7 +114,22 @@ namespace B18_Ex05_1
 
         private void OnCellBoardClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            //TODO: finish impliment
+
+            //current select
+            if(m_currentPos.m_Col== null || m_currentPos.m_Row == null)
+            {
+                m_currentPos = new Position(
+                    ((PanelWithPosition)sender).XPosition,
+                    ((PanelWithPosition)sender).YPosition);
+            }
+            //desired move
+            else
+            {
+                m_desiredPos = new Position(
+                    ((PanelWithPosition)sender).XPosition,
+                    ((PanelWithPosition)sender).YPosition);
+            }
         }
     }
 }

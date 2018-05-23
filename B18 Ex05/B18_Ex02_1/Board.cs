@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B18_Ex02_1
 {
-    class Board
+    public class Board
     {
         private eCheckerType?[,] m_Matrix;
         private int m_Size;

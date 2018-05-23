@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B18_Ex02_1
 {
-    enum eUserTurn
+    public enum eUserTurn
     {
         User1,
         User2,

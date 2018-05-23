@@ -1,6 +1,6 @@
 ﻿namespace B18_Ex02_1
 {
-    enum eCheckerType
+    public enum eCheckerType
     {
         Team1_Man = 'X',
         Team1_King = 'K',

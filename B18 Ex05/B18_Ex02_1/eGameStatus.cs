@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B18_Ex02_1
 {
-    enum eGameStatus
+    public enum eGameStatus
     {
         OnPlay,
         Quit,

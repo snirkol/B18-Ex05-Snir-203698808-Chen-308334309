@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B18_Ex02_1
 {
-    class GameManager
+    public class GameManager
     {
         Player m_PlayerOne;
         Player m_PlayerTwo;

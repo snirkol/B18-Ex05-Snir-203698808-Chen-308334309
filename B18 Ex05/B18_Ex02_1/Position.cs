@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B18_Ex02_1
 {
-    struct Position
+    public struct Position
     {
         public int? m_Row { get; set; }
         public int? m_Col { get; set; }

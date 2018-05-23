@@ -14,6 +14,7 @@ namespace B18_Ex05_1
     {
         public int sizeOfBoard { get; set; }
         public string nameOfPlayerOne { get; set; }
+        public string nameOfPlayerTwo { get; set; }
         public GameSettingsForm()
         {
             InitializeComponent();
@@ -44,8 +45,8 @@ namespace B18_Ex05_1
                 sizeOfBoard = 10;
             }
 
-            nameOfPlayerOne = textBoxPlayer1.Text; 
-
+            nameOfPlayerOne = textBoxPlayer1.Text;
+            nameOfPlayerTwo = CheckBoxPlayer2.Checked ? TextBoxPlayer2.Text : null;
             this.Close();
         }
     }

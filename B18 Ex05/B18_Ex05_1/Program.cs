@@ -19,7 +19,9 @@ namespace B18_Ex05_1
             GameSettingsForm gameSettingsForm = new GameSettingsForm();
             Application.Run(gameSettingsForm);
             int sizeOfBoard = gameSettingsForm.sizeOfBoard;
-            Application.Run(new DamkaForm(sizeOfBoard));
+            string PlayerOneName = gameSettingsForm.nameOfPlayerOne;
+            string PlayerTwoName = gameSettingsForm.nameOfPlayerTwo;
+            Application.Run(new DamkaForm(sizeOfBoard, PlayerOneName, PlayerTwoName));
         }
     }
 }

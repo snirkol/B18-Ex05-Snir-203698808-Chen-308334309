@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace B18_Ex02_1
 {
-    class Player
+    public class Player
     {
         public string m_Name { get; set; }
         public int m_Score { get; set; }

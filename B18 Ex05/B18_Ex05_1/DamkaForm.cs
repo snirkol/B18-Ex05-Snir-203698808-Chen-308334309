@@ -14,15 +14,17 @@ namespace B18_Ex05_1
     public partial class DamkaForm : Form
     {
         Button[,] m_DamkaBoardButtons;
+        Label m_NameOfPlayerOne = new Label();
+        Label m_NameOfPlayerTwo = new Label();
         int m_SizeOfBoard;
         const int k_TileSize = 40;
         const int k_Spaces = 12;
         public string PlayerOneName { get; set; }
         public string PlayerTwoName { get; set; }
 
-        public GameManager GameManager { get; set; }
-        Position m_currentPos ;
-        Position m_desiredPos ;
+        public GameManager m_GameManager { get; set; }
+        Position m_currentPos;
+        Position m_desiredPos;
 
         public bool IsMoreEat { get; set; } = false;
 
@@ -33,7 +35,7 @@ namespace B18_Ex05_1
             m_SizeOfBoard = i_SizeOfBoard;
             PlayerOneName = i_PlayerOneName;
             PlayerTwoName = i_PlayerTwoName;
-            GameManager = new GameManager(PlayerOneName, PlayerTwoName, m_SizeOfBoard);
+            m_GameManager = new GameManager(PlayerOneName, PlayerTwoName, m_SizeOfBoard);
         }
 
         private void DamkaForm_Load(object sender, EventArgs e)
@@ -45,19 +47,17 @@ namespace B18_Ex05_1
         private void CreateTopPanel()
         {
             int spaces = m_SizeOfBoard / 3;
-            Label nameOfPlayerOne = new Label() { Text = $"{PlayerOneName}:" };
-            Controls.Add(nameOfPlayerOne);
-            nameOfPlayerOne.Location = new Point((((m_SizeOfBoard - (spaces * 2) - 1) / 2) * k_TileSize) + k_Spaces, k_Spaces);
-            nameOfPlayerOne.Size = new System.Drawing.Size(80, 80);
-            //nameOfPlayerOne.BackColor = Color.LightGreen;
-            nameOfPlayerOne.Show();
+            m_NameOfPlayerOne.Text = $"{m_GameManager.m_PlayerOne.m_Name}: {m_GameManager.m_PlayerOne.m_Score}";
+            Controls.Add(m_NameOfPlayerOne);
+            m_NameOfPlayerOne.Location = new Point((((m_SizeOfBoard - (spaces * 2) - 1) / 2) * k_TileSize) + k_Spaces, k_Spaces);
+            m_NameOfPlayerOne.Size = new System.Drawing.Size(80, 80);
+            m_NameOfPlayerOne.Show();
 
-            Label nameOfPlayerTwo = new Label() { Text = $"{PlayerTwoName}:" };
-            Controls.Add(nameOfPlayerTwo);
-            nameOfPlayerTwo.Location = new Point(this.ClientSize.Width - 92, 12);
-            nameOfPlayerTwo.Size = new System.Drawing.Size(80, 80);
-            //nameOfPlayerTwo.BackColor = Color.LightGreen;
-            nameOfPlayerTwo.Show();
+            m_NameOfPlayerTwo.Text = $"{m_GameManager.m_PlayerTwo.m_Name}: {m_GameManager.m_PlayerTwo.m_Score}";
+            Controls.Add(m_NameOfPlayerTwo);
+            m_NameOfPlayerTwo.Location = new Point(this.ClientSize.Width - 132, 12);
+            m_NameOfPlayerTwo.Size = new System.Drawing.Size(80, 80);
+            m_NameOfPlayerTwo.Show();
         }
 
         private void CreateBoard()
@@ -75,7 +75,7 @@ namespace B18_Ex05_1
             {
                 for (var m = 0; m < m_SizeOfBoard; m++)
                 {
-                    ButtonWithPosition cellBoard = new ButtonWithPosition(n,m)
+                    ButtonWithPosition cellBoard = new ButtonWithPosition(n, m)
                     {
                         Size = new Size(k_TileSize, k_TileSize),
                         Location = new Point(k_TileSize * n + k_Spaces, k_TileSize * m + k_TileSize)
@@ -114,16 +114,16 @@ namespace B18_Ex05_1
                 }
             }
 
-            showCeckersInBoard(GameManager.m_Board.GetBoard());
+            redrawBoard();
 
         }
 
         private void OnCellBoardClick(object sender, EventArgs e)
         {
             //Select target
-            if(m_currentPos.m_Col == null || m_currentPos.m_Row == null)
+            if (m_currentPos.m_Col == null || m_currentPos.m_Row == null)
             {
-                if(((ButtonWithPosition)sender).Text != "")
+                if (((ButtonWithPosition)sender).Text != "")
                 {
                     m_currentPos = new Position(
                         ((ButtonWithPosition)sender).YPosition,
@@ -140,7 +140,7 @@ namespace B18_Ex05_1
                     ((ButtonWithPosition)sender).YPosition,
                     ((ButtonWithPosition)sender).XPosition);
 
-                if((m_currentPos.m_Col == m_desiredPos.m_Col) && 
+                if ((m_currentPos.m_Col == m_desiredPos.m_Col) &&
                     (m_currentPos.m_Row == m_desiredPos.m_Row))
                 {
                     // cancle selection
@@ -151,100 +151,111 @@ namespace B18_Ex05_1
                     m_desiredPos.m_Col = null;
                 }
 
-                //check if move is valid
-                if (GameManager.CheckMove(m_currentPos, m_desiredPos))
+                else
                 {
-                    //IsDesiredMoveValid = true;
-                    bool isMoreEat ;
-                    GameManager.Move(m_currentPos, m_desiredPos, out isMoreEat);
-                    if (!isMoreEat)
-                    {
-                        GameManager.NextTurn();
-                    }
-                    redrawBoard();
-                    m_DamkaBoardButtons[(int)m_currentPos.m_Col, (int)m_currentPos.m_Row].BackColor = Color.White;
-                    m_DamkaBoardButtons[(int)m_desiredPos.m_Col, (int)m_desiredPos.m_Row].BackColor = Color.White;
-                    m_currentPos.m_Row = null;
-                    m_currentPos.m_Col = null;
-                    m_desiredPos.m_Row = null;
-                    m_desiredPos.m_Col = null;
-                    //m_DamkaBoardButtons[(int)m_desiredPos.m_Col, (int)m_desiredPos.m_Row].Text =
-                    //    m_DamkaBoardButtons[(int)m_currentPos.m_Col, (int)m_currentPos.m_Row].Text;
-
-                    //m_DamkaBoardButtons[(int)m_currentPos.m_Col, (int)m_currentPos.m_Row].Text = "";
-
+                    doAfterClick();
                 }
-            }
-            GameManager.HandleStatusGame();
 
-            if (GameManager.m_GameStatus == eGameStatus.Draw ||
-                GameManager.m_GameStatus == eGameStatus.PlayerOneWin ||
-                GameManager.m_GameStatus == eGameStatus.PlayerTwoWin ||
-                GameManager.m_GameStatus == eGameStatus.Quit)
-            {
-                //TODO: Handle when game need to END.
+                if (m_GameManager.m_CurrentUserTurn == eUserTurn.User2 
+                    && m_GameManager.m_IsComputerPlaying == true && 
+                    m_GameManager.m_GameStatus == eGameStatus.OnPlay)
+                {
+                    bool isQuit;
+                    m_GameManager.GetCurrentTurnFromComputer(out m_currentPos, out m_desiredPos, out isQuit);
+                    doAfterClick();
+                }
             }
         }
 
         private void redrawBoard()
         {
-            eCheckerType?[,] logicBoard = GameManager.m_Board.GetBoard();
+            eCheckerType?[,] logicBoard = m_GameManager.m_Board.GetBoard();
 
             foreach (ButtonWithPosition button in m_DamkaBoardButtons)
             {
-                char? currenChar = ((char?)logicBoard[button.YPosition, button.XPosition]);
-                if(currenChar == null)
+                char? currentChar = ((char?)logicBoard[button.YPosition, button.XPosition]);
+                if (currentChar == null)
                 {
-                    button.Text = " ";
+                    button.Text = "";
                 }
                 else
                 {
-                    button.Text = currenChar.ToString();
+                    button.Text = currentChar.ToString();
                 }
             }
         }
 
-        private void showCeckersInBoard(eCheckerType?[,] i_Board)
+        private void doAfterClick()
         {
-            for (int i = 0; i< m_SizeOfBoard ; i++)
+            //check if move is valid
+            if (m_GameManager.CheckMove(m_currentPos, m_desiredPos))
             {
-                for( int j=0; j < m_SizeOfBoard; j++)
+                //IsDesiredMoveValid = true;
+                bool isMoreEat;
+                m_GameManager.Move(m_currentPos, m_desiredPos, out isMoreEat);
+                if (!isMoreEat)
                 {
-                    m_DamkaBoardButtons[i, j].Text = convertECheckerTypeToString(i_Board[j, i]);
+                    m_GameManager.NextTurn();
                 }
+                redrawBoard();
+
+                m_GameManager.HandleStatusGame();
+
+                if (m_GameManager.m_GameStatus == eGameStatus.Draw ||
+                    m_GameManager.m_GameStatus == eGameStatus.PlayerOneWin ||
+                    m_GameManager.m_GameStatus == eGameStatus.PlayerTwoWin)
+                {
+                    int playerOneScore = 0, playerTwoScore = 0;
+                    m_GameManager.CalculatePointAndGameStatus(ref playerOneScore, ref playerTwoScore);
+                    DialogResult result = DialogResult.No;
+
+                    switch (m_GameManager.m_GameStatus)
+                    {
+                        case eGameStatus.Draw:
+                            result = MessageBox.Show("Tire!\nAnother Round?", "Damka", MessageBoxButtons.YesNo);
+                            break;
+
+                        case eGameStatus.PlayerOneWin:
+                            result = MessageBox.Show($"{m_GameManager.m_PlayerOne.m_Name} Won!\nAnother Round?", "Damka", MessageBoxButtons.YesNo);
+                            break;
+
+                        case eGameStatus.PlayerTwoWin:
+                            result = MessageBox.Show($"{m_GameManager.m_PlayerTwo.m_Name} Won!\nAnother Round?", "Damka", MessageBoxButtons.YesNo);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    if(result == DialogResult.Yes)
+                    {
+                        m_GameManager.m_Board.InitBoard();
+                        m_GameManager.m_GameStatus = eGameStatus.OnPlay;
+                        m_GameManager.m_CurrentUserTurn = eUserTurn.User1;
+                        redrawBoard();
+                        CreateTopPanel();
+                    }
+
+                    else
+                    {
+                        this.Close();
+                    }
+
+                }
+
             }
-        }
 
-        private string convertECheckerTypeToString(eCheckerType? i_EcheckerType)
-        {
-            string o_result;
-
-            if(i_EcheckerType == null)
+            else
             {
-                o_result = "";
+                MessageBox.Show("Invalid Move","Damka",MessageBoxButtons.OK);
             }
 
-            else if(i_EcheckerType == eCheckerType.Team1_King)
-            {
-                o_result = "K";
-            }
-
-            else if (i_EcheckerType == eCheckerType.Team1_Man)
-            {
-                o_result = "X";
-            }
-
-            else if( i_EcheckerType == eCheckerType.Team2_King)
-            {
-                o_result = "U";
-            }
-
-            else // i_EcheckerType == eCheckerType.Team2_Man)
-            {
-                o_result = "O";
-            }
-
-            return o_result;
+            m_DamkaBoardButtons[(int)m_currentPos.m_Col, (int)m_currentPos.m_Row].BackColor = Color.White;
+            m_DamkaBoardButtons[(int)m_desiredPos.m_Col, (int)m_desiredPos.m_Row].BackColor = Color.White;
+            m_currentPos.m_Row = null;
+            m_currentPos.m_Col = null;
+            m_desiredPos.m_Row = null;
+            m_desiredPos.m_Col = null;
         }
     }
 }

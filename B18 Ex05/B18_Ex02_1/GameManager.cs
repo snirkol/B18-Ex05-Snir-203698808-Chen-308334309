@@ -8,8 +8,8 @@ namespace B18_Ex02_1
 {
     public class GameManager
     {
-        Player m_PlayerOne;
-        Player m_PlayerTwo;
+        public Player m_PlayerOne { get;}
+        public Player m_PlayerTwo { get; }
         public Board m_Board { get; set; }
         public eUserTurn m_CurrentUserTurn { get; set; }
         public eGameStatus m_GameStatus { get; set; }

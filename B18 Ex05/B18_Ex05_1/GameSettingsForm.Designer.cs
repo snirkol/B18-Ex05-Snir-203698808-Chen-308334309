@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.CenterToScreen();
             this.radioButton6X6 = new System.Windows.Forms.RadioButton();
             this.radioButton8X8 = new System.Windows.Forms.RadioButton();
             this.radioButton10X10 = new System.Windows.Forms.RadioButton();

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CenterToScreen();
             this.radioButton6X6 = new System.Windows.Forms.RadioButton();
             this.radioButton8X8 = new System.Windows.Forms.RadioButton();
             this.radioButton10X10 = new System.Windows.Forms.RadioButton();
@@ -117,9 +116,9 @@
             this.CheckBoxPlayer2.AutoSize = true;
             this.CheckBoxPlayer2.Location = new System.Drawing.Point(55, 298);
             this.CheckBoxPlayer2.Name = "CheckBoxPlayer2";
-            this.CheckBoxPlayer2.Size = new System.Drawing.Size(156, 36);
+            this.CheckBoxPlayer2.Size = new System.Drawing.Size(172, 36);
             this.CheckBoxPlayer2.TabIndex = 8;
-            this.CheckBoxPlayer2.Text = "Plyer 2: ";
+            this.CheckBoxPlayer2.Text = "Player 2: ";
             this.CheckBoxPlayer2.UseVisualStyleBackColor = true;
             this.CheckBoxPlayer2.CheckedChanged += new System.EventHandler(this.CheckBoxPlayer2_CheckedChanged);
             // 
@@ -154,7 +153,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelPlayr1);
             this.Controls.Add(this.radioButtonGroupBoxSizeOfBoard);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "GameSettingsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Game Settings";
             this.radioButtonGroupBoxSizeOfBoard.ResumeLayout(false);
             this.radioButtonGroupBoxSizeOfBoard.PerformLayout();

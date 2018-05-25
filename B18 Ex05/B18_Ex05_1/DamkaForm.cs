@@ -24,6 +24,8 @@ namespace B18_Ex05_1
         Position m_currentPos ;
         Position m_desiredPos ;
 
+        public bool IsMoreEat { get; set; } = false;
+
 
         public DamkaForm(int i_SizeOfBoard, string i_PlayerOneName, string i_PlayerTwoName)
         {
@@ -118,16 +120,14 @@ namespace B18_Ex05_1
 
         private void OnCellBoardClick(object sender, EventArgs e)
         {
-            //TODO: finish impliment
-
-            //current select
+            //Select target
             if(m_currentPos.m_Col == null || m_currentPos.m_Row == null)
             {
                 if(((ButtonWithPosition)sender).Text != "")
                 {
                     m_currentPos = new Position(
-                        ((ButtonWithPosition)sender).XPosition,
-                        ((ButtonWithPosition)sender).YPosition);
+                        ((ButtonWithPosition)sender).YPosition,
+                        ((ButtonWithPosition)sender).XPosition);
 
                     ((ButtonWithPosition)sender).BackColor = Color.LightBlue;
                 }
@@ -137,8 +137,8 @@ namespace B18_Ex05_1
             else
             {
                 m_desiredPos = new Position(
-                    ((ButtonWithPosition)sender).XPosition,
-                    ((ButtonWithPosition)sender).YPosition);
+                    ((ButtonWithPosition)sender).YPosition,
+                    ((ButtonWithPosition)sender).XPosition);
 
                 if((m_currentPos.m_Col == m_desiredPos.m_Col) && 
                     (m_currentPos.m_Row == m_desiredPos.m_Row))
@@ -149,6 +149,57 @@ namespace B18_Ex05_1
                     m_currentPos.m_Col = null;
                     m_desiredPos.m_Row = null;
                     m_desiredPos.m_Col = null;
+                }
+
+                //check if move is valid
+                if (GameManager.CheckMove(m_currentPos, m_desiredPos))
+                {
+                    //IsDesiredMoveValid = true;
+                    bool isMoreEat ;
+                    GameManager.Move(m_currentPos, m_desiredPos, out isMoreEat);
+                    if (!isMoreEat)
+                    {
+                        GameManager.NextTurn();
+                    }
+                    redrawBoard();
+                    m_DamkaBoardButtons[(int)m_currentPos.m_Col, (int)m_currentPos.m_Row].BackColor = Color.White;
+                    m_DamkaBoardButtons[(int)m_desiredPos.m_Col, (int)m_desiredPos.m_Row].BackColor = Color.White;
+                    m_currentPos.m_Row = null;
+                    m_currentPos.m_Col = null;
+                    m_desiredPos.m_Row = null;
+                    m_desiredPos.m_Col = null;
+                    //m_DamkaBoardButtons[(int)m_desiredPos.m_Col, (int)m_desiredPos.m_Row].Text =
+                    //    m_DamkaBoardButtons[(int)m_currentPos.m_Col, (int)m_currentPos.m_Row].Text;
+
+                    //m_DamkaBoardButtons[(int)m_currentPos.m_Col, (int)m_currentPos.m_Row].Text = "";
+
+                }
+            }
+            GameManager.HandleStatusGame();
+
+            if (GameManager.m_GameStatus == eGameStatus.Draw ||
+                GameManager.m_GameStatus == eGameStatus.PlayerOneWin ||
+                GameManager.m_GameStatus == eGameStatus.PlayerTwoWin ||
+                GameManager.m_GameStatus == eGameStatus.Quit)
+            {
+                //TODO: Handle when game need to END.
+            }
+        }
+
+        private void redrawBoard()
+        {
+            eCheckerType?[,] logicBoard = GameManager.m_Board.GetBoard();
+
+            foreach (ButtonWithPosition button in m_DamkaBoardButtons)
+            {
+                char? currenChar = ((char?)logicBoard[button.YPosition, button.XPosition]);
+                if(currenChar == null)
+                {
+                    button.Text = " ";
+                }
+                else
+                {
+                    button.Text = currenChar.ToString();
                 }
             }
         }

@@ -21,7 +21,10 @@ namespace B18_Ex05_1
             int sizeOfBoard = gameSettingsForm.sizeOfBoard;
             string PlayerOneName = gameSettingsForm.nameOfPlayerOne;
             string PlayerTwoName = gameSettingsForm.nameOfPlayerTwo;
-            Application.Run(new DamkaForm(sizeOfBoard, PlayerOneName, PlayerTwoName));
+            if(gameSettingsForm.IsPassValidation == true)
+            {
+                Application.Run(new DamkaForm(sizeOfBoard, PlayerOneName, PlayerTwoName));
+            }
         }
     }
 }

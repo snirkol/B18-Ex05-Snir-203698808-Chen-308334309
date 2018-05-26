@@ -118,7 +118,7 @@ namespace B18_Ex05_1
 
         }
 
-        private void OnCellBoardClick(object sender, EventArgs e)
+        protected virtual void OnCellBoardClick(object sender, EventArgs e)
         {
             //Select target
             if (m_currentPos.m_Col == null || m_currentPos.m_Row == null)

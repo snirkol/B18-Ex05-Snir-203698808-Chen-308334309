@@ -42,6 +42,7 @@ namespace B18_Ex05_1
         {
             CreateBoard();
             CreateTopPanel();
+            this.CenterToScreen();
         }
 
         private void CreateTopPanel()
